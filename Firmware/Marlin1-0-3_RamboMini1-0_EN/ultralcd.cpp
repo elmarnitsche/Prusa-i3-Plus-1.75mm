@@ -357,6 +357,9 @@ static void lcd_sdcard_stop()
 	cancel_heatup = true;
 
 	lcd_setstatus(MSG_PRINT_ABORTED);
+
+  enquecommand_P(PSTR("M84"));
+  
 }
 
 /* Menu implementation */
