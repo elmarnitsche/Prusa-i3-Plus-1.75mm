@@ -63,6 +63,7 @@
    #define MACHINE_UUID "00000000-0000-0000-0000-000000000000"
 #endif
 
+#define MSG_FW_VERSION                   "Firmware"
 
 #define STRINGIFY_(n) #n
 #define STRINGIFY(n) STRINGIFY_(n)

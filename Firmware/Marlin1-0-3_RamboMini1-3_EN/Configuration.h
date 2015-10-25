@@ -47,6 +47,9 @@
   #define MOTHERBOARD BOARD_RAMBO_MINI
 #endif
 
+#define FW_version "1.3.5"
+
+
 // Define this to set a custom name for your generic Mendel,
 #define CUSTOM_MENDEL_NAME "Prusa i3"
 

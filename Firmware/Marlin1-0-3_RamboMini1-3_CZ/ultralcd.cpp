@@ -458,6 +458,7 @@ static void lcd_support_menu()
     
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
     
+    MENU_ITEM(back, MSG_FW_VERSION " - " FW_version, lcd_main_menu);
     MENU_ITEM(back, "prusa3d.cz", lcd_main_menu);
     MENU_ITEM(back, "forum.prusa3d.cz", lcd_main_menu);
     MENU_ITEM(back, "howto.prusa3d.cz", lcd_main_menu);
