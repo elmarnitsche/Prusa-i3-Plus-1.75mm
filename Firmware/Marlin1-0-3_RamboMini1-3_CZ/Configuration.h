@@ -47,7 +47,7 @@
   #define MOTHERBOARD BOARD_RAMBO_MINI
 #endif
 
-#define FW_version "1.3.5"
+#define FW_version "2.2.0"
 
 
 // Define this to set a custom name for your generic Mendel,
