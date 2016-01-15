@@ -298,7 +298,7 @@
 //#define MENU_ADDAUTOSTART
 
 // Show a progress bar on the LCD when printing from SD?
-//#define LCD_PROGRESS_BAR
+#define LCD_PROGRESS_BAR
 
 #ifdef LCD_PROGRESS_BAR
   // Amount of time (ms) to show the bar
@@ -351,7 +351,7 @@
 // Hooke's law says:		force = k * distance
 // Bernoulli's principle says:	v ^ 2 / 2 + g . h + pressure / density = constant
 // so: v ^ 2 is proportional to number of steps we advance the extruder
-//#define ADVANCE
+#define ADVANCE
 
 #ifdef ADVANCE
   #define EXTRUDER_ADVANCE_K .006

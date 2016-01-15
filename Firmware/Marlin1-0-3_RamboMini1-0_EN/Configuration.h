@@ -163,9 +163,9 @@
 
 // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 // Ultimaker
-    #define  DEFAULT_Kp 40.925
-    #define  DEFAULT_Ki 4.875
-    #define  DEFAULT_Kd 86.085
+    #define  DEFAULT_Kp 66.00
+    #define  DEFAULT_Ki 11.51
+    #define  DEFAULT_Kd 94.63
 
 // MakerGear
 //    #define  DEFAULT_Kp 7.0
@@ -188,7 +188,7 @@
 // If your configuration is significantly different than this and you don't understand the issues involved, you probably
 // shouldn't use bed PID until someone else verifies your hardware works.
 // If this is enabled, find your own PID constants below.
-//#define PIDTEMPBED
+#define PIDTEMPBED
 //
 //#define BED_LIMIT_SWITCHING
 
@@ -201,9 +201,9 @@
 #ifdef PIDTEMPBED
 //120v 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
 //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-    #define  DEFAULT_bedKp 10.00
-    #define  DEFAULT_bedKi .023
-    #define  DEFAULT_bedKd 305.4
+    #define  DEFAULT_bedKp 137.99
+    #define  DEFAULT_bedKi 6.99
+    #define  DEFAULT_bedKd 681.07
 
 //120v 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
 //from pidautotune
@@ -337,11 +337,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 
 // Travel limits after homing
-#define X_MAX_POS 214
+#define X_MAX_POS 215
 #define X_MIN_POS 0
 #define Y_MAX_POS 198
 #define Y_MIN_POS 0
-#define Z_MAX_POS 201
+#define Z_MAX_POS 200
 #define Z_MIN_POS 0.23
 
 #define X_MAX_LENGTH (X_MAX_POS - X_MIN_POS)
