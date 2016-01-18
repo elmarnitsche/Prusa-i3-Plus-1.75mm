@@ -123,7 +123,7 @@ static void menu_action_setting_edit_callback_float51(const char* pstr, float* p
 static void menu_action_setting_edit_callback_float52(const char* pstr, float* ptr, float minValue, float maxValue, menuFunc_t callbackFunc);
 static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned long* ptr, unsigned long minValue, unsigned long maxValue, menuFunc_t callbackFunc);
 
-#define ENCODER_FEEDRATE_DEADZONE 10
+#define ENCODER_FEEDRATE_DEADZONE 0
 
 #if !defined(LCD_I2C_VIKI)
   #ifndef ENCODER_STEPS_PER_MENU_ITEM
@@ -264,7 +264,7 @@ static void lcd_status_screen()
     if (lcdDrawUpdate)
     {
         lcd_implementation_status_screen();
-        lcd_status_update_delay = 10;   /* redraw the main screen every second. This is easier then trying keep track of all things that change on the screen */
+        lcd_status_update_delay = 5;   /* redraw the main screen every second. This is easier then trying keep track of all things that change on the screen */
     }
 #ifdef ULTIPANEL
 
@@ -735,6 +735,7 @@ static void lcd_settings_menu()
     
     MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
     
+    MENU_ITEM(gcode, MSG_WORK_HOME, PSTR("G1 Z+10.0 X215.0 Y180.0 F10000.0"));
     
     MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
     
@@ -871,7 +872,7 @@ if (IS_SD_PRINTING)
     
 
  
-
+    /*
     MENU_ITEM(submenu, MSG_SUPPORT, lcd_support_menu);
     /*
     MENU_ITEM(back, MSG_WATCH, lcd_status_screen);
@@ -1291,9 +1292,10 @@ static void lcd_control_temperature_menu()
     MENU_ITEM_EDIT(float3, MSG_PID_C, &Kc, 1, 9990);
 # endif//PID_ADD_EXTRUSION_RATE
 #endif//PIDTEMP
+    /*
     MENU_ITEM(submenu, MSG_PREHEAT_PLA_SETTINGS, lcd_control_temperature_preheat_pla_settings_menu);
     MENU_ITEM(submenu, MSG_PREHEAT_ABS_SETTINGS, lcd_control_temperature_preheat_abs_settings_menu);
-
+    */
     END_MENU();
 }
 
