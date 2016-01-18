@@ -351,7 +351,7 @@
 // Hooke's law says:		force = k * distance
 // Bernoulli's principle says:	v ^ 2 / 2 + g . h + pressure / density = constant
 // so: v ^ 2 is proportional to number of steps we advance the extruder
-#define ADVANCE
+//#define ADVANCE
 
 #ifdef ADVANCE
   #define EXTRUDER_ADVANCE_K .006
@@ -438,8 +438,8 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 #ifdef ULTIPANEL
   #define FILAMENTCHANGEENABLE
   #ifdef FILAMENTCHANGEENABLE
-    #define FILAMENTCHANGE_XPOS 211
-    #define FILAMENTCHANGE_YPOS 0
+    #define FILAMENTCHANGE_XPOS 215
+    #define FILAMENTCHANGE_YPOS 170
     #define FILAMENTCHANGE_ZADD 2
     #define FILAMENTCHANGE_FIRSTRETRACT -2
     #define FILAMENTCHANGE_FINALRETRACT -80

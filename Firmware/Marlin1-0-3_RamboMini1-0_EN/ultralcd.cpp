@@ -525,14 +525,10 @@ void lcd_wait_interact(){
 
 
 void lcd_change_success(){
-
-      lcd_implementation_clear();
-      
-      lcd.setCursor(0, 2);
-     
+      lcd_implementation_clear();     
+      lcd.setCursor(0, 3); // set in row 3     
       lcd.print(MSG_CHANGE_SUCCESS);
-
-
+      delay(500); // time to display success info
 }
 
 
@@ -1173,7 +1169,7 @@ static void lcd_prepare_menu()
     MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
     MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
     MENU_ITEM(function, MSG_SET_HOME_OFFSETS, lcd_set_home_offsets);
-    //MENU_ITEM(gcode, MSG_SET_ORIGIN, PSTR("G92 X0 Y0 Z0"));
+    MENU_ITEM(gcode, MSG_SET_ORIGIN, PSTR("G92 X0 Y0 Z0"));
 #if TEMP_SENSOR_0 != 0
   #if TEMP_SENSOR_1 != 0 || TEMP_SENSOR_2 != 0 || TEMP_SENSOR_BED != 0
     MENU_ITEM(submenu, MSG_PREHEAT_PLA, lcd_preheat_pla_menu);
@@ -1285,7 +1281,7 @@ static void lcd_control_temperature_menu()
     MENU_ITEM_EDIT(float3, MSG_MAX, &autotemp_max, 0, HEATER_0_MAXTEMP - 3);
     MENU_ITEM_EDIT(float32, MSG_FACTOR, &autotemp_factor, 0.0, 1.0);
 #endif
-/*
+
 #ifdef PIDTEMP
     MENU_ITEM_EDIT(float52, MSG_PID_P, &Kp, 1, 9990);
     // i is typically a small value so allows values below 1
@@ -1297,7 +1293,7 @@ static void lcd_control_temperature_menu()
 #endif//PIDTEMP
     MENU_ITEM(submenu, MSG_PREHEAT_PLA_SETTINGS, lcd_control_temperature_preheat_pla_settings_menu);
     MENU_ITEM(submenu, MSG_PREHEAT_ABS_SETTINGS, lcd_control_temperature_preheat_abs_settings_menu);
-    */
+
     END_MENU();
 }
 
