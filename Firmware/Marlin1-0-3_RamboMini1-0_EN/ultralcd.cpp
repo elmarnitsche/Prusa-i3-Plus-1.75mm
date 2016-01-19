@@ -44,6 +44,8 @@ int flexPreheatHotendTemp = FLEX_PREHEAT_HOTEND_TEMP;
 int flexPreheatHPBTemp = FLEX_PREHEAT_HPB_TEMP;
 int flexPreheatFanSpeed = FLEX_PREHEAT_FAN_SPEED;
 
+int lcd_calibrate_state = 0;
+
 #ifdef FILAMENT_LCD_DISPLAY
   unsigned long message_millis = 0;
 #endif
@@ -456,59 +458,53 @@ static void lcd_preheat_menu()
 static void lcd_support_menu()
 {
     START_MENU();
-        
-    
-    MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
-    
+    MENU_ITEM(back, MSG_MAIN, lcd_main_menu);  
     MENU_ITEM(back, MSG_FW_VERSION " - " FW_version, lcd_main_menu);
     MENU_ITEM(back, "prusa3d.com", lcd_main_menu);
     MENU_ITEM(back, "forum.prusa3d.com", lcd_main_menu);
     MENU_ITEM(back, "howto.prusa3d.com", lcd_main_menu);
-
     END_MENU();
 }
 
-//############################################### 
+//#########################################################################
 static void lcd_calibration_menue()
 {
-
-    //PSTR("G28");
-    //enquecommand_P(PSTR("G28"));
-    //lcd_implementation_clear();
-    //  lcd.setCursor(0, 0);
-    //  lcd.print(MSG_HOME_1_Z);
-    //enquecommand_P(PSTR("G1 F10000 X25  Y5"));
- 
   START_MENU();
-     //PSTR("G28");
-    //enquecommand_P(PSTR("G28"));
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
     MENU_ITEM(gcode, MSG_HOME_1_Z , PSTR("G1 F8000 X25  Y5"));
     MENU_ITEM(gcode, MSG_HOME_2_Z , PSTR("G1 F8000 X170 Y5"));
     MENU_ITEM(gcode, MSG_HOME_3_Z , PSTR("G1 F8000 X170 Y170"));
     MENU_ITEM(gcode, MSG_HOME_4_Z , PSTR("G1 F8000 X25 Y170"));
     MENU_ITEM(gcode, MSG_HOME_5_Z , PSTR("G1 F8000 X103 Y93"));
-    MENU_ITEM(gcode, MSG_HOMEYZ, PSTR("G28Z"));
-  
+    MENU_ITEM(gcode, MSG_HOMEYZ, PSTR("G28Z"));  
   END_MENU();
  }
 
-// autohome befor Calibration
+//####################enforce homing before calibration####################
 void lcd_autohome(){
-  
-  enquecommand_P(PSTR("G28"));
-  lcd.setCursor(0, 0);
-  lcd.print("Druckbett bereit.");
+    if (! (axis_known_position[X_AXIS] && axis_known_position[Y_AXIS]) )
+            {
+                enquecommand_P(PSTR("G28"));
+                lcd.setCursor(0, 0);
+                lcd.print("Kalibriere X/Y vor Z");
+                //LCD_MESSAGEPGM(MSG_POSITION_UNKNOWN);
+                //SERIAL_ECHO_START;
+                //SERIAL_ECHOLNPGM(MSG_POSITION_UNKNOWN);
+                //enquecommand_P(PSTR("G28"));  
+            } 
   lcd.setCursor(0, 1);
+  lcd.print("Druckbett bereit?");
+  lcd.setCursor(0, 2);
   lcd.print("Kalibrierung starten");
-  lcd.setCursor(18, 2);
+  lcd.setCursor(18, 3);
   lcd.print("->");
+  //lcd_update();
   lcd_goto_menu(lcd_calibration_menue, 1, false);
  }
 
+
 void lcd_unLoadFilament()
-{
-  
+{  
   if(degHotend0() > EXTRUDE_MINTEMP){
     
     enquecommand_P(PSTR("M83"));
@@ -762,25 +758,16 @@ static void lcd_move_menu_1mm()
 static void lcd_settings_menu()
 {
     START_MENU();
-    
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
-    
     MENU_ITEM(submenu, MSG_TEMPERATURE, lcd_control_temperature_menu);
-    
-
     MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu_1mm);
-    
     MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
 
     //MENU_ITEM(gcode, MSG_SET_ORIGIN, PSTR("G92 X0 Y0 Z0")); // Nullpunkt manuell setzen
-    
-    //MENU_ITEM(gcode, MSG_WORK_HOME, PSTR("G1 Z+10.0 X215.0 Y180.0 F10000.0")); //Arbeitsposition Extruder neben Bett geparkt
-                                                                               // Achtung! erst nach "Homing" verwenden.
-//#####################
-    
-
+//if ( (axis_known_position[X_AXIS] && axis_known_position[Y_AXIS]) )             {
+//      MENU_ITEM(gcode, MSG_WORK_HOME, PSTR("G1 Z+2.0 X215.0 Y180.0 F10000.0")); //Arbeitsposition Extruder neben Bett parken
+//            } //end of if axis known
     MENU_ITEM(submenu, MSG_CALIBRATION, lcd_autohome);
-    //MENU_ITEM(gcode, MSG_HOMEYZ, PSTR("G28Z"));
     MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
 
     END_MENU();
@@ -902,12 +889,13 @@ if (IS_SD_PRINTING)
     {
         
     }else{
-      
+        MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu_1mm);
+        if ( (axis_known_position[X_AXIS] && axis_known_position[Y_AXIS]) ){
+              MENU_ITEM(gcode, MSG_WORK_HOME, PSTR("G1 Z+2.0 X215.0 Y180.0 F10000.0")); //Arbeitsposition Extruder neben Bett parken
+            } //end of if axis known
         MENU_ITEM(function, MSG_LOAD_FILAMENT, lcd_LoadFilament);
-        MENU_ITEM(function, MSG_UNLOAD_FILAMENT, lcd_unLoadFilament);  
-      
-        MENU_ITEM(submenu, MSG_SETTINGS, lcd_settings_menu);
-        
+        MENU_ITEM(function, MSG_UNLOAD_FILAMENT, lcd_unLoadFilament);       
+        MENU_ITEM(submenu, MSG_SETTINGS, lcd_settings_menu); 
     }
     
 
@@ -1275,7 +1263,7 @@ static void lcd_control_menu()
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
     MENU_ITEM(submenu, MSG_TEMPERATURE, lcd_control_temperature_menu);
     MENU_ITEM(submenu, MSG_MOTION, lcd_control_motion_menu);
-	MENU_ITEM(submenu, MSG_VOLUMETRIC, lcd_control_volumetric_menu);
+	  MENU_ITEM(submenu, MSG_VOLUMETRIC, lcd_control_volumetric_menu);
 
 #ifdef DOGLCD
 //    MENU_ITEM_EDIT(int3, MSG_CONTRAST, &lcd_contrast, 0, 63);

@@ -20,10 +20,9 @@
   void lcd_change_success();
   void lcd_loading_color();
   void lcd_autohome();
-  //void lcd_return_to_kalibration_menu();
-  
   
   bool lcd_detected(void);
+  //void lcd_calibrate_state(bool value);
 
 #ifdef DOGLCD
   extern int lcd_contrast;

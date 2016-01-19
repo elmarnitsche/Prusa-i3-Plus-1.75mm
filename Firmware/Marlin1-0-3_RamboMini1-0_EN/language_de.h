@@ -8,7 +8,7 @@
 #ifndef LANGUAGE_DE_H
 #define LANGUAGE_DE_H
 
-#define WELCOME_MSG                         MACHINE_NAME " bereit..."
+#define WELCOME_MSG                         MACHINE_NAME " bereit!"
 #define MSG_SD_INSERTED                     "SD Karte bereit!"
 #define MSG_SD_REMOVED                      "Keine SD Karte!"
 #define MSG_MAIN                            "Haupt"
