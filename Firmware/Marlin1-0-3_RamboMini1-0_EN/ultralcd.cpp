@@ -753,7 +753,11 @@ static void lcd_move_menu_1mm()
     move_menu_scale = 1.0;
     lcd_move_menu_axis();
 }
-
+static void lcd_move_menu_01mm()
+{
+    move_menu_scale = 0.1;
+    lcd_move_menu_axis();
+}
 
 static void lcd_settings_menu()
 {
@@ -824,6 +828,7 @@ void lcd_move_menu_axis()
 {
     START_MENU();
     MENU_ITEM(back, MSG_SETTINGS, lcd_settings_menu);
+    
     MENU_ITEM(submenu, MSG_MOVE_X, lcd_move_x);
     MENU_ITEM(submenu, MSG_MOVE_Y, lcd_move_y);
     if (move_menu_scale < 10.0)
@@ -831,6 +836,12 @@ void lcd_move_menu_axis()
         MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_z);
         MENU_ITEM(submenu, MSG_MOVE_E, lcd_move_e);
     }
+    if (move_menu_scale == 1.0) { 
+      MENU_ITEM(submenu, MSG_MOVE_01MM, lcd_move_menu_01mm);
+      }
+    if (move_menu_scale == 0.1) {
+      MENU_ITEM(submenu, MSG_MOVE_1MM, lcd_move_menu_1mm);
+      }
     END_MENU();
 }
 static void lcd_move_menu_10mm()
@@ -839,7 +850,7 @@ static void lcd_move_menu_10mm()
     lcd_move_menu_axis();
 }
 
-
+//################# Main Menu ############################
 static void lcd_main_menu()
 {
     START_MENU();
@@ -847,19 +858,12 @@ static void lcd_main_menu()
     // Majkl superawesome menu
     
     MENU_ITEM(back, MSG_WATCH, lcd_status_screen);
-    
-    
-    
     if (movesplanned() || IS_SD_PRINTING)
     {
         MENU_ITEM(submenu, MSG_TUNE, lcd_tune_menu);
     }else{
         MENU_ITEM(submenu, MSG_PREHEAT, lcd_preheat_menu);
     }
-    
-    
-
-
 #ifdef SDSUPPORT
     if (card.cardOK)
     {
@@ -944,11 +948,6 @@ if (IS_SD_PRINTING)
 */
     END_MENU();
 }
-
-
-
-
-
 
 
 
@@ -1237,13 +1236,13 @@ static void lcd_delta_calibrate_menu()
 
 
 
-
+/*
 static void lcd_move_menu_01mm()
 {
     move_menu_scale = 0.1;
     lcd_move_menu_axis();
 }
-
+*/
 static void lcd_move_menu()
 {
     START_MENU();
