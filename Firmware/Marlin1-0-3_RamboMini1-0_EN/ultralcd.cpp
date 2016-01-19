@@ -335,6 +335,7 @@ static void lcd_status_screen()
 #ifdef ULTIPANEL
 
 static void lcd_return_to_status() { lcd_goto_menu(lcd_status_screen, 0, false); }
+//static void lcd_return_to_kalibration_menu() { lcd_goto_menu(lcd_kalibration_menu, 0, false); }
 
 static void lcd_sdcard_pause() { card.pauseSDPrint(); }
 
@@ -466,6 +467,44 @@ static void lcd_support_menu()
 
     END_MENU();
 }
+
+//############################################### 
+static void lcd_calibration_menue()
+{
+
+    //PSTR("G28");
+    //enquecommand_P(PSTR("G28"));
+    //lcd_implementation_clear();
+    //  lcd.setCursor(0, 0);
+    //  lcd.print(MSG_HOME_1_Z);
+    //enquecommand_P(PSTR("G1 F10000 X25  Y5"));
+ 
+  START_MENU();
+     //PSTR("G28");
+    //enquecommand_P(PSTR("G28"));
+    MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
+    MENU_ITEM(gcode, MSG_HOME_1_Z , PSTR("G1 F8000 X25  Y5"));
+    MENU_ITEM(gcode, MSG_HOME_2_Z , PSTR("G1 F8000 X170 Y5"));
+    MENU_ITEM(gcode, MSG_HOME_3_Z , PSTR("G1 F8000 X170 Y170"));
+    MENU_ITEM(gcode, MSG_HOME_4_Z , PSTR("G1 F8000 X25 Y170"));
+    MENU_ITEM(gcode, MSG_HOME_5_Z , PSTR("G1 F8000 X103 Y93"));
+    MENU_ITEM(gcode, MSG_HOMEYZ, PSTR("G28Z"));
+  
+  END_MENU();
+ }
+
+// autohome befor Calibration
+void lcd_autohome(){
+  
+  enquecommand_P(PSTR("G28"));
+  lcd.setCursor(0, 0);
+  lcd.print("Druckbett bereit.");
+  lcd.setCursor(0, 1);
+  lcd.print("Kalibrierung starten");
+  lcd.setCursor(18, 2);
+  lcd.print("->");
+  lcd_goto_menu(lcd_calibration_menue, 1, false);
+ }
 
 void lcd_unLoadFilament()
 {
@@ -731,17 +770,18 @@ static void lcd_settings_menu()
 
     MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu_1mm);
     
-    MENU_ITEM(gcode, MSG_HOMEYZ, PSTR("G28 Z"));
-    
     MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
+
+    //MENU_ITEM(gcode, MSG_SET_ORIGIN, PSTR("G92 X0 Y0 Z0")); // Nullpunkt manuell setzen
     
-    MENU_ITEM(gcode, MSG_WORK_HOME, PSTR("G1 Z+10.0 X215.0 Y180.0 F10000.0"));
+    //MENU_ITEM(gcode, MSG_WORK_HOME, PSTR("G1 Z+10.0 X215.0 Y180.0 F10000.0")); //Arbeitsposition Extruder neben Bett geparkt
+                                                                               // Achtung! erst nach "Homing" verwenden.
+//#####################
     
+
+    MENU_ITEM(submenu, MSG_CALIBRATION, lcd_autohome);
+    //MENU_ITEM(gcode, MSG_HOMEYZ, PSTR("G28Z"));
     MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
-    
-    
-    
-    
 
     END_MENU();
 }

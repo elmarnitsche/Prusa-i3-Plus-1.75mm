@@ -19,6 +19,8 @@
   void lcd_loading_filament();
   void lcd_change_success();
   void lcd_loading_color();
+  void lcd_autohome();
+  //void lcd_return_to_kalibration_menu();
   
   
   bool lcd_detected(void);
