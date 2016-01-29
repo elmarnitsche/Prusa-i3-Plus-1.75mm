@@ -10,14 +10,11 @@
 #include <string.h>
 //#include "Configuration.h"
 
-
 #define _STRINGIFY(s) #s
-
 
 int8_t encoderDiff; /* encoderDiff is updated from interrupt context and added to encoderPosition every LCD update */
 
 extern int lcd_change_fil_state;
-
 
 /* Configuration settings */
 int plaPreheatHotendTemp;
@@ -143,7 +140,6 @@ static void menu_action_setting_edit_callback_long5(const char* pstr, unsigned l
   #endif
 #endif
 
-
 /* Helper macros for menus */
 #define START_MENU() do { \
     if (encoderPosition > 0x8000) encoderPosition = 0; \
@@ -227,7 +223,6 @@ static void lcd_goto_menu(menuFunc_t menu, const uint32_t encoder=0, const bool 
     #endif
   }
 }
-
 /* Main status screen. It's up to the implementation specific part to show what is needed. As this is very display dependent */
 static void lcd_status_screen()
 {
@@ -335,17 +330,12 @@ static void lcd_status_screen()
 }
 
 #ifdef ULTIPANEL
-
 static void lcd_return_to_status() { lcd_goto_menu(lcd_status_screen, 0, false); }
 //static void lcd_return_to_kalibration_menu() { lcd_goto_menu(lcd_kalibration_menu, 0, false); }
-
 static void lcd_sdcard_pause() { card.pauseSDPrint(); }
-
 static void lcd_sdcard_resume() { card.startFileprint(); }
-
 float move_menu_scale;
 static void lcd_move_menu_axis();
-
 static void lcd_sdcard_stop()
 {
     card.sdprinting = false;
@@ -437,21 +427,15 @@ void lcd_cooldown()
 
 static void lcd_preheat_menu()
 {
-    START_MENU();
-        
-    
-    MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
-    
+    START_MENU();        
+    MENU_ITEM(back, MSG_MAIN, lcd_main_menu);    
     MENU_ITEM(function, "ABS  -  " STRINGIFY(ABS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ABS_PREHEAT_HPB_TEMP), lcd_preheat_abs);
     MENU_ITEM(function, "PLA  -  " STRINGIFY(PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PLA_PREHEAT_HPB_TEMP), lcd_preheat_pla);
     MENU_ITEM(function, "PET  -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP), lcd_preheat_pet);
     MENU_ITEM(function, "HIPS -  " STRINGIFY(HIPS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(HIPS_PREHEAT_HPB_TEMP), lcd_preheat_hips);
     MENU_ITEM(function, "PP   -  " STRINGIFY(PP_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PP_PREHEAT_HPB_TEMP), lcd_preheat_pp);
-    MENU_ITEM(function, "FLEX -  " STRINGIFY(FLEX_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(FLEX_PREHEAT_HPB_TEMP), lcd_preheat_flex);
-    
-   
+    MENU_ITEM(function, "FLEX -  " STRINGIFY(FLEX_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(FLEX_PREHEAT_HPB_TEMP), lcd_preheat_flex);   
     MENU_ITEM(function, MSG_COOLDOWN, lcd_cooldown);
-
     END_MENU();
 }
 
@@ -484,201 +468,126 @@ static void lcd_calibration_menue()
 void lcd_autohome(){
     if (! (axis_known_position[X_AXIS] && axis_known_position[Y_AXIS]) )
             {
-                enquecommand_P(PSTR("G28"));
-                lcd.setCursor(0, 0);
-                lcd.print("Kalibriere X/Y vor Z");
-                //LCD_MESSAGEPGM(MSG_POSITION_UNKNOWN);
-                //SERIAL_ECHO_START;
-                //SERIAL_ECHOLNPGM(MSG_POSITION_UNKNOWN);
-                //enquecommand_P(PSTR("G28"));  
-            } 
+             enquecommand_P(PSTR("G28"));
+             lcd.setCursor(0, 0);
+             lcd.print("Kalibriere X/Y vor Z");
+            } //endif
   lcd.setCursor(0, 1);
   lcd.print("Druckbett bereit?");
   lcd.setCursor(0, 2);
   lcd.print("Kalibrierung starten");
   lcd.setCursor(18, 3);
   lcd.print("->");
-  //lcd_update();
   lcd_goto_menu(lcd_calibration_menue, 1, false);
  }
 
 
 void lcd_unLoadFilament()
 {  
-  if(degHotend0() > EXTRUDE_MINTEMP){
-    
+  if(degHotend0() > EXTRUDE_MINTEMP)
+  {
     enquecommand_P(PSTR("M83"));
-  
-    enquecommand_P(PSTR("G1 E-80 F400"));
-    
-  }else{
-
+    enquecommand_P(PSTR("G1 E-80 F400"));    
+  }else
+      {
       lcd_implementation_clear();
-      lcd.setCursor(0, 0);
-     
-      lcd.print(MSG_ERROR);
-      
-      lcd.setCursor(0, 2);
-     
-      lcd.print(MSG_PREHEAT_NOZZLE);
-      
-      
+      lcd.setCursor(0, 0);     
+      lcd.print(MSG_ERROR);      
+      lcd.setCursor(0, 2);     
+      lcd.print(MSG_PREHEAT_NOZZLE);      
        delay(2000); 
-       lcd_implementation_clear();
-  
-  }
-  
-  
-
-  lcd_return_to_status();
-  
+       lcd_implementation_clear();  
+      }
+  lcd_return_to_status();  
 }
 
 void lcd_change_filament(){
-  
     lcd_implementation_clear();
-      
-      lcd.setCursor(0, 1);
-     
-      lcd.print(MSG_CHANGING_FILAMENT);
-
-
-}
-
+    lcd.setCursor(0, 1);
+    lcd.print(MSG_CHANGING_FILAMENT);
+    }
 
 void lcd_wait_interact(){
-
     lcd_implementation_clear();
-      
-      lcd.setCursor(0, 1);
-     
-      lcd.print(MSG_INSERT_FILAMENT);
-      lcd.setCursor(0, 2);
-      lcd.print(MSG_PRESS);
-
+    lcd.setCursor(0, 1); 
+    lcd.print(MSG_INSERT_FILAMENT);
+    lcd.setCursor(0, 2);
+    lcd.print(MSG_PRESS);
 }
-
 
 void lcd_change_success(){
-      lcd_implementation_clear();     
-      lcd.setCursor(0, 3); // set in row 3     
-      lcd.print(MSG_CHANGE_SUCCESS);
-      delay(500); // time to display success info
+     lcd_implementation_clear();     
+     lcd.setCursor(0, 3); // set in row 3     
+     lcd.print(MSG_CHANGE_SUCCESS);
+     delay(500); // time to display success info
 }
-
 
 void lcd_loading_color(){
-    
-    lcd_implementation_clear();
-      
-      lcd.setCursor(0, 0);
-     
-      lcd.print(MSG_LOADING_COLOR);
-      lcd.setCursor(0, 2);
-      lcd.print(MSG_PLEASE_WAIT);
-
-  
-  for(int i = 0; i<20; i++){
-    
-    lcd.setCursor(i, 3);
-    lcd.print(".");
-    for(int j = 0;j<10 ; j++){
-        manage_heater();
-    manage_inactivity(true);
-        delay(85);
-    
-    }
-    
-     
-  }
-
+    lcd_implementation_clear();  
+    lcd.setCursor(0, 0); 
+    lcd.print(MSG_LOADING_COLOR);
+    lcd.setCursor(0, 2);
+    lcd.print(MSG_PLEASE_WAIT); 
+    for(int i = 0; i<20; i++){
+        lcd.setCursor(i, 3);
+        lcd.print(".");
+        for(int j = 0;j<10 ; j++){
+          manage_heater();
+          manage_inactivity(true);
+          delay(85);
+          }     
+     }
 }
 
-
 void lcd_loading_filament(){
-
-  
-    lcd_implementation_clear();
-      
+      lcd_implementation_clear();
       lcd.setCursor(0, 0);
-     
       lcd.print(MSG_LOADING_FILAMENT);
       lcd.setCursor(0, 2);
       lcd.print(MSG_PLEASE_WAIT);
-
-  
-  for(int i = 0; i<20; i++){
-    
-    lcd.setCursor(i, 3);
-    lcd.print(".");
-    for(int j = 0;j<10 ; j++){
-        manage_heater();
-    manage_inactivity(true);
-        delay(110);
-    
-    }
-    
-     
-  }
-
-}
+        for(int i = 0; i<20; i++){
+          lcd.setCursor(i, 3);
+          lcd.print(".");
+            for(int j = 0;j<10 ; j++){
+            manage_heater();
+            manage_inactivity(true);
+            delay(110);
+            }
+         }
+       }
 
 void lcd_alright(){
   int enc_dif = 0;
-  int cursor_pos = 1;
-
-  
-  
-  
-   lcd_implementation_clear();
-      
+  int cursor_pos = 1;  
+   lcd_implementation_clear();   
       lcd.setCursor(0, 0);
-     
       lcd.print(MSG_CORRECTLY);
-      
       lcd.setCursor(1, 1);
-     
       lcd.print(MSG_YES);
-      
       lcd.setCursor(1, 2);
-     
       lcd.print(MSG_NOT_LOADED);
-      
-      
       lcd.setCursor(1, 3);
       lcd.print(MSG_NOT_COLOR);
-      
-      
-       lcd.setCursor(0, 1);
-     
+      lcd.setCursor(0, 1);
       lcd.print(">");
-      
-     
       enc_dif = encoderDiff;
-      
-      while(lcd_change_fil_state == 0){
-        
+      while(lcd_change_fil_state == 0){  
         manage_heater();
-          manage_inactivity(true);
-          
-          if( enc_dif != encoderDiff ){
-            
+        manage_inactivity(true); 
+        if( enc_dif != encoderDiff ){    
             if ( (abs(enc_dif-encoderDiff)) > 1 ){
-            if (enc_dif > encoderDiff ){
+                if (enc_dif > encoderDiff ){
                   cursor_pos --;
-              }
-              
-              if (enc_dif < encoderDiff  ){
+                }              
+                if (enc_dif < encoderDiff  ){
                   cursor_pos ++;
-              }
-              
-              if(cursor_pos >3){
-              cursor_pos = 3;
-            }
-            
-            if(cursor_pos <1){
-              cursor_pos = 1;
-            }
+                }
+                if(cursor_pos >3){
+                  cursor_pos = 3;
+                }
+               if(cursor_pos <1){
+                  cursor_pos = 1;
+                }
             lcd.setCursor(0, 1);
             lcd.print(" ");
             lcd.setCursor(0, 2);
@@ -687,27 +596,17 @@ void lcd_alright(){
             lcd.print(" ");
             lcd.setCursor(0, cursor_pos);
             lcd.print(">");
-              enc_dif = encoderDiff;
-              delay(100);
-            }
-            
-          }
-          
-
-          if(lcd_clicked()){
-            
+            enc_dif = encoderDiff;
+            delay(100);
+            }            
+         }
+         if(lcd_clicked()){   
             lcd_change_fil_state = cursor_pos;
-            delay(500);
-              
+            delay(500);    
           }
-          
-          
-          
         };
-      
-      
        lcd_implementation_clear();
-  lcd_return_to_status();
+       lcd_return_to_status();
   
 }
 
@@ -887,23 +786,18 @@ static void lcd_main_menu()
 #endif
     }
 #endif
-
-
 if (IS_SD_PRINTING)
-    {
-        
+    {       
     }else{
         MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu_1mm);
         if ( (axis_known_position[X_AXIS] && axis_known_position[Y_AXIS]) ){
-              MENU_ITEM(gcode, MSG_WORK_HOME, PSTR("G1 Z+2.0 X215.0 Y180.0 F10000.0")); //Arbeitsposition Extruder neben Bett parken
+              MENU_ITEM(gcode, MSG_WORK_HOME, PSTR("G0 X215.0 Y180.0 ")); //Arbeitsposition Extruder neben Bett parken
             } //end of if axis known
         MENU_ITEM(function, MSG_LOAD_FILAMENT, lcd_LoadFilament);
         MENU_ITEM(function, MSG_UNLOAD_FILAMENT, lcd_unLoadFilament);       
         MENU_ITEM(submenu, MSG_SETTINGS, lcd_settings_menu); 
     }
     
-
- 
     /*
     MENU_ITEM(submenu, MSG_SUPPORT, lcd_support_menu);
     /*
@@ -917,10 +811,7 @@ if (IS_SD_PRINTING)
         MENU_ITEM(submenu, MSG_DELTA_CALIBRATE, lcd_delta_calibrate_menu);
 #endif // DELTA_CALIBRATION_MENU
     }
-    MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
-    
-
-    
+    MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);    
 #ifdef SDSUPPORT
     if (card.cardOK)
     {
@@ -949,8 +840,6 @@ if (IS_SD_PRINTING)
     END_MENU();
 }
 
-
-
 #ifdef SDSUPPORT
 static void lcd_autostart_sd()
 {
@@ -978,7 +867,6 @@ void lcd_set_home_offsets()
 
 
 #ifdef BABYSTEPPING
-
   static void _lcd_babystep(int axis, const char *msg) {
     if (encoderPosition != 0) {
       babystepsTodo[axis] += (int)encoderPosition;

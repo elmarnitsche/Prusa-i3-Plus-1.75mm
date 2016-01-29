@@ -157,8 +157,8 @@
 #define MSG_PRESS				                     "und Knopf druecken!"
 #define MSG_INSERT_FILAMENT		               "Filament einsetzen"
 #define MSG_CHANGING_FILAMENT	                "Filament wechseln!"
-#define MSG_HEATING_COMPLETE                  "Drucken..."
-#define MSG_BED_HEATING                       "Vorheizen..."
+//#define MSG_HEATING_COMPLETE                  "Drucken..."
+//#define MSG_BED_HEATING                       "Vorheizen..."
 #define MSG_CALIBRATION                       "Kalibrieren"
 
 

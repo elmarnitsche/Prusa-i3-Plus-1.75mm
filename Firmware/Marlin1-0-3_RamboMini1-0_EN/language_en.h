@@ -132,6 +132,11 @@
 #define MSG_ENDSTOP_ABORT                   "Endstop abort"
 
 #define MSG_HOMEYZ                          "Calibrate Z"
+#define MSG_HOME_1_Z                        "1. X:25  Y:5"
+#define MSG_HOME_2_Z                        "2. X:170 Y:5"
+#define MSG_HOME_3_Z                        "3. X:170 Y:170" 
+#define MSG_HOME_4_Z                        "4. X:25  Y:170"
+#define MSG_HOME_5_Z                        "5. Center"
 #define MSG_SETTINGS                         "Settings"
 #define MSG_PREHEAT                         "Preheat"
 #define MSG_UNLOAD_FILAMENT                 "Unload filament"
@@ -152,6 +157,10 @@
 #define MSG_PRESS				"And press the knob"
 #define MSG_INSERT_FILAMENT		"Insert filament"
 #define MSG_CHANGING_FILAMENT	"Changing filament!"
+
+
+#define MSG_CALIBRATION                       "Calibration"
+
 
 #ifdef DELTA_CALIBRATION_MENU
     #define MSG_DELTA_CALIBRATE             "Delta Calibration"
